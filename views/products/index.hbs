@@ -1,0 +1,29 @@
+<div class="container mt-4">
+  <h1 class="mb-4">Productos</h1>
+  <a href="/products/create" class="btn btn-primary mb-3">+ Nuevo producto</a>
+
+  {{#if products}}
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Precio</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each products}}
+          <tr>
+            <td>{{name}}</td>
+            <td>${{price}}</td>
+            <td>
+              <a href="/products/{{id}}" class="btn btn-sm btn-outline-secondary">Ver</a>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{else}}
+    <p class="text-muted">No hay productos todavía.</p>
+  {{/if}}
+</div>
