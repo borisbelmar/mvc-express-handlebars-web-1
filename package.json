@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "nodemon",
     "build": "tsdown",
-    "start": "node dist/index.cjs"
+    "start": "node dist/index.cjs",
+    "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@libsql/client": "^0.17.3",
