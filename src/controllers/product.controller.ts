@@ -1,14 +1,14 @@
 import { Request, Response } from 'express'
 import * as ProductModel from '../models/product.model'
 
-export const index = (_req: Request, res: Response): void => {
-  const products = ProductModel.getAll()
+export const index = async (_req: Request, res: Response): Promise<void> => {
+  const products = await ProductModel.getAll()
   res.render('products/index', { products })
 }
 
-export const show = (req: Request, res: Response): void => {
+export const show = async (req: Request, res: Response): Promise<void> => {
   const id = parseInt(req.params.id as string)
-  const product = ProductModel.getById(id)
+  const product = await ProductModel.getById(id)
   if (!product) {
     res.status(404).render('404', { message: 'Producto no encontrado' })
     return
@@ -20,15 +20,15 @@ export const createForm = (_req: Request, res: Response): void => {
   res.render('products/create')
 }
 
-export const createAction = (req: Request, res: Response): void => {
+export const createAction = async (req: Request, res: Response): Promise<void> => {
   const { name, price, description } = req.body
-  const newProduct = ProductModel.create({ name, price: Number(price), description })
+  const newProduct = await ProductModel.create({ name, price: Number(price), description })
   res.redirect(`/products/${newProduct.id}`)
 }
 
-export const editForm = (req: Request, res: Response): void => {
+export const editForm = async (req: Request, res: Response): Promise<void> => {
   const id = parseInt(req.params.id as string)
-  const product = ProductModel.getById(id)
+  const product = await ProductModel.getById(id)
   if (!product) {
     res.status(404).render('404', { message: 'Producto no encontrado' })
     return
@@ -36,23 +36,23 @@ export const editForm = (req: Request, res: Response): void => {
   res.render('products/edit', { product })
 }
 
-export const editAction = (req: Request, res: Response): void => {
+export const editAction = async (req: Request, res: Response): Promise<void> => {
   const id = parseInt(req.params.id as string)
   const { name, price, description } = req.body
-  const updated = ProductModel.update(id, { name, price: Number(price), description })
-  if (!updated) {
+  try {
+    await ProductModel.update(id, { name, price: Number(price), description })
+    res.redirect(`/products/${id}`)
+  } catch {
     res.status(404).render('404', { message: 'Producto no encontrado' })
-    return
   }
-  res.redirect(`/products/${id}`)
 }
 
-export const deleteAction = (req: Request, res: Response): void => {
+export const deleteAction = async (req: Request, res: Response): Promise<void> => {
   const id = parseInt(req.params.id as string)
-  const deleted = ProductModel.remove(id)
-  if (!deleted) {
+  try {
+    await ProductModel.remove(id)
+    res.redirect('/products')
+  } catch {
     res.status(404).render('404', { message: 'Producto no encontrado' })
-    return
   }
-  res.redirect('/products')
 }

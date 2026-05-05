@@ -8,6 +8,10 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
+    "@libsql/client": "^0.17.3",
+    "@prisma/adapter-libsql": "^7.8.0",
+    "@prisma/client": "^7.8.0",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "express-handlebars": "^9.0.1"
   },
@@ -16,6 +20,7 @@
     "@types/express-handlebars": "^6.0.2",
     "@types/node": "^25.6.0",
     "nodemon": "^3.1.14",
+    "prisma": "^7.8.0",
     "ts-node": "^10.9.2",
     "tsdown": "^0.21.10",
     "typescript": "^6.0.3"

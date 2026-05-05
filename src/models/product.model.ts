@@ -1,40 +1,22 @@
-export interface Product {
-  id: number
-  name: string
-  price: number
-  description: string
+import prisma from '../lib/prisma'
+import type { Prisma } from '../generated/prisma/client'
+
+export const getAll = async () => {
+  return await prisma.product.findMany()
 }
 
-const products: Product[] = [
-  { id: 1, name: 'Pro Laptop', price: 999990, description: 'High-performance laptop.' },
-  { id: 2, name: 'Wireless Mouse', price: 29990, description: 'Ergonomic mouse.' },
-  { id: 3, name: 'Mechanical Keyboard', price: 79990, description: 'Blue switches.' },
-]
-
-export const getAll = (): Product[] => {
-  return products
+export const getById = async (id: number) => {
+  return await prisma.product.findUnique({ where: { id } })
 }
 
-export const getById = (id: number): Product | undefined => {
-  return products.find(p => p.id === id)
+export const create = async (data: Prisma.ProductCreateInput) => {
+  return await prisma.product.create({ data })
 }
 
-export const create = (data: Omit<Product, 'id'>): Product => {
-  const newProduct: Product = { id: products.length + 1, ...data }
-  products.push(newProduct)
-  return newProduct
+export const update = async (id: number, data: Prisma.ProductUpdateInput) => {
+  return await prisma.product.update({ where: { id }, data })
 }
 
-export const update = (id: number, data: Omit<Product, 'id'>): Product | undefined => {
-  const index = products.findIndex(p => p.id === id)
-  if (index === -1) return undefined
-  products[index] = { id, ...data }
-  return products[index]
-}
-
-export const remove = (id: number): boolean => {
-  const index = products.findIndex(p => p.id === id)
-  if (index === -1) return false
-  products.splice(index, 1)
-  return true
+export const remove = async (id: number) => {
+  return await prisma.product.delete({ where: { id } })
 }
