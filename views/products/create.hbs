@@ -6,15 +6,24 @@
   <form action="/products" method="POST" class="card card-body">
     <div class="mb-3">
       <label for="name" class="form-label">Nombre:</label>
-      <input type="text" id="name" name="name" class="form-control" required>
+      <input type="text" id="name" name="name" class="form-control{{#if errors.name}} is-invalid{{/if}}">
+      {{#if errors.name}}
+        <div class="invalid-feedback">{{errors.name}}</div>
+      {{/if}}
     </div>
     <div class="mb-3">
       <label for="description" class="form-label">Descripción:</label>
-      <textarea id="description" name="description" class="form-control" required></textarea>
+      <textarea id="description" name="description" class="form-control{{#if errors.description}} is-invalid{{/if}}"></textarea>
+      {{#if errors.description}}
+        <div class="invalid-feedback">{{errors.description}}</div>
+      {{/if}}
     </div>
     <div class="mb-3">
       <label for="price" class="form-label">Precio:</label>
-      <input type="number" id="price" name="price" class="form-control" min="0" step="1" required>
+      <input type="number" id="price" name="price" class="form-control{{#if errors.price}} is-invalid{{/if}}" min="0" step="1">
+      {{#if errors.price}}
+        <div class="invalid-feedback">{{errors.price}}</div>
+      {{/if}}
     </div>
     <button type="submit" class="btn btn-primary">Crear Producto</button>
   </form>
