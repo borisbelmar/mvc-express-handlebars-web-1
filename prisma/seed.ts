@@ -1,16 +1,24 @@
+/// <reference types="node" />
 import 'dotenv/config'
-import { PrismaLibSql } from '@prisma/adapter-libsql'
+import bcrypt from 'bcryptjs'
+import { PrismaPg } from '@prisma/adapter-pg'
 import { PrismaClient } from '../src/generated/prisma/client'
 
-const adapter = new PrismaLibSql({ url: process.env.DATABASE_URL ?? 'file:./dev.db' })
+const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! })
 const prisma = new PrismaClient({ adapter })
 
 async function main() {
   console.log('Seeding database...')
 
+  // Limpiar datos existentes para poder ejecutar el seed múltiples veces
+  await prisma.product.deleteMany()
+  await prisma.user.deleteMany()
+
+  const hash = await bcrypt.hash('123456', 10)
+
   const users = await Promise.all([
-    prisma.user.create({ data: { email: 'alice@example.com', password: '123456' } }),
-    prisma.user.create({ data: { email: 'bob@example.com', password: '123456' } }),
+    prisma.user.create({ data: { email: 'alice@example.com', password: hash } }),
+    prisma.user.create({ data: { email: 'bob@example.com', password: hash } }),
   ])
 
   const products = [
