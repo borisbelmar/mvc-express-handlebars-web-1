@@ -27,14 +27,14 @@
         <ul class="navbar-nav">
           {{#if session.userId}}
             <li class="nav-item">
-              <a class="nav-link" href="/login/logout">Cerrar sesión</a>
+              <a class="nav-link" href="/auth/logout">Cerrar sesión</a>
             </li>
           {{else}}
             <li class="nav-item">
-              <a class="nav-link" href="/login">Iniciar sesión</a>
+              <a class="nav-link" href="/auth/login">Iniciar sesión</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/login/register">Registro</a>
+              <a class="nav-link" href="/auth/register">Registro</a>
             </li>
           {{/if}}
         </ul>

@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(session({
   secret: process.env.SESSION_SECRET ?? 'dev-secret',
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: false
 }))
 
 app.use((req, _res, next) => {
@@ -32,7 +32,7 @@ app.use((req, _res, next) => {
 })
 
 app.get('/', (_req, res) => res.render('home'))
-app.use('/login', authRouter)
+app.use('/auth', authRouter)
 app.use('/products', requireAuth, productRouter)
 
 export default app
